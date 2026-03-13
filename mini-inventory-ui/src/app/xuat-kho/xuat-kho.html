@@ -1,0 +1,40 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      
+      <div class="card shadow border-0 border-top border-4 border-danger">
+        <div class="card-header bg-white text-center py-3">
+          <h4 class="m-0 fw-bold text-danger">🚀 Lập Phiếu Xuất Kho</h4>
+        </div>
+        
+        <div class="card-body p-4 bg-light">
+          <div class="mb-3">
+            <label class="form-label fw-bold text-secondary">1. Chọn mặt hàng cần xuất</label>
+            <select class="form-select form-select-lg" [(ngModel)]="sanPhamChonId">
+              <option value="0">-- Vui lòng chọn sản phẩm --</option>
+              <option *ngFor="let sp of danhSachSanPham" [value]="sp.id">
+                {{ sp.name }} (Tồn hiện tại: {{ sp.stockQuantity }})
+              </option>
+            </select>
+          </div>
+          
+          <div class="mb-4">
+            <label class="form-label fw-bold text-secondary">2. Số lượng xuất đi</label>
+            <input type="number" class="form-control form-control-lg text-danger fw-bold" [(ngModel)]="soLuongXuat" placeholder="Nhập số lượng...">
+          </div>
+          
+          <button class="btn btn-danger btn-lg w-100 fw-bold shadow-sm" (click)="luuPhieuXuat()">
+            Xác Nhận Xuất Kho
+          </button>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-secondary btn-sm" routerLink="/dashboard">
+          🔙 Quay lại trang Quản lý
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

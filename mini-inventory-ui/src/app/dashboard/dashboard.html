@@ -1,0 +1,213 @@
+<div class="container mt-4 pt-3">
+  <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white shadow-sm rounded border-bottom border-4 border-primary">
+    <h3 class="m-0 text-dark fw-bold">📦 Quản lý Kho Tổng hợp</h3>
+    <div>
+      <button class="btn btn-success fw-bold me-2 shadow-sm" (click)="lamMoiForm()">
+        + Thêm Sản Phẩm Mới
+      </button>
+      
+      <button class="btn btn-warning fw-bold me-3 shadow-sm text-dark" routerLink="/nhap-kho">
+        📥 Lập Phiếu Nhập Kho
+      </button>
+
+      <button class="btn btn-danger fw-bold me-3 shadow-sm" routerLink="/xuat-kho">
+        🚀 Lập Phiếu Xuất Kho
+      </button>
+
+      <button class="btn btn-info fw-bold me-3 shadow-sm text-white" routerLink="/danh-muc">
+        📂 Quản lý Danh Mục
+      </button>
+
+      <button class="btn btn-outline-danger fw-bold shadow-sm" (click)="dangXuat()">
+        🚪 Đăng xuất
+      </button>
+      
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 border-start border-5 border-primary h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="fs-1 me-3">🛍️</div>
+          <div>
+            <h6 class="text-muted mb-0 fw-bold">Tổng số Loại Mặt Hàng</h6>
+            <h3 class="mb-0 fw-bold text-dark">{{ tongSoMatHang }} <span class="fs-6 text-muted fw-normal">loại</span></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 border-start border-5 border-success h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="fs-1 me-3">📦</div>
+          <div>
+            <h6 class="text-muted mb-0 fw-bold">Tổng Số Lượng Tồn Kho</h6>
+            <h3 class="mb-0 fw-bold text-dark">{{ tongSoTonKho }} <span class="fs-6 text-muted fw-normal">sản phẩm</span></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 mb-4 border-top border-4 border-danger" *ngIf="hangSapHet.length > 0">
+    <div class="card-header bg-white text-danger fw-bold fs-5">
+      ⚠️ Cảnh báo: Các mặt hàng sắp hết cần nhập gấp!
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover table-sm text-center align-middle m-0">
+        <thead class="table-danger">
+          <tr>
+            <th>Mã SP</th>
+            <th class="text-start">Tên Sản Phẩm</th>
+            <th>Tồn Kho Báo Động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sp of hangSapHet">
+            <td class="fw-medium text-secondary">{{ sp.productCode }}</td>
+            <td class="text-start fw-bold">{{ sp.name }}</td>
+            <td>
+              <span class="badge bg-danger rounded-pill fs-6 px-3 shadow-sm">
+                {{ sp.stockQuantity }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 mb-4 border-top border-4 border-info">
+    <div class="card-header bg-white text-info-emphasis fw-bold fs-5">
+      ⏱️ Lịch sử 10 giao dịch Nhập / Xuất gần nhất
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover table-sm text-center align-middle m-0">
+        <thead class="table-light text-secondary">
+          <tr>
+            <th>Thời Gian</th>
+            <th>Mã Phiếu</th>
+            <th>Loại</th>
+            <th>Người Thực Hiện</th>
+            <th class="text-start">Ghi Chú</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let gd of lichSuGiaoDich">
+            <td class="fw-medium text-muted small">{{ gd.transactionDate | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="text-secondary">#{{ gd.id }}</td>
+            <td>
+              <span class="badge rounded-pill px-3 shadow-sm" 
+                    [ngClass]="{'bg-success': gd.transactionType === 'Inbound', 'bg-danger': gd.transactionType === 'Outbound'}">
+                {{ gd.transactionType === 'Inbound' ? 'NHẬP KHO' : 'XUẤT KHO' }}
+              </span>
+            </td>
+            <td class="fw-bold">{{ gd.contactPerson }}</td>
+            <td class="text-start text-muted fst-italic">{{ gd.notes }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="lichSuGiaoDich.length === 0" class="text-center p-4 text-muted">
+        Chưa có lịch sử giao dịch nào được ghi nhận.
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow border-0 mb-5">
+    <div class="card-header bg-dark text-white fw-bold">
+      📋 Danh mục Sản phẩm chi tiết
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover table-bordered text-center align-middle m-0">
+        <thead class="table-secondary">
+          <tr>
+            <th>ID</th>
+            <th>Mã SP</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Đơn vị</th>
+            <th>Tồn Kho</th>
+            <th>Giá Mua</th>
+            <th>Giá Bán</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sp of danhSachSanPham">
+            <td class="fw-bold text-secondary">{{ sp.id }}</td>
+            <td class="fw-medium">{{ sp.productCode }}</td>
+            <td class="text-start fw-bold text-dark">{{ sp.name }}</td>
+            <td>{{ sp.unit }}</td>
+            <td>
+              <span class="badge rounded-pill fs-6" 
+                    [ngClass]="{'bg-danger': sp.stockQuantity === 0, 'bg-primary': sp.stockQuantity > 0 && sp.stockQuantity <= 10, 'bg-info text-dark': sp.stockQuantity > 10}">
+                {{ sp.stockQuantity }}
+              </span>
+            </td>
+            <td class="text-primary">{{ sp.purchasePrice | number }}đ</td>
+            <td class="text-danger fw-bold">{{ sp.sellingPrice | number }}đ</td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm me-2 shadow-sm" (click)="suaSanPham(sp)">Sửa</button>
+              <button class="btn btn-outline-danger btn-sm shadow-sm" (click)="xoaSanPham(sp.id)">Xóa</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div *ngIf="danhSachSanPham.length === 0" class="text-center p-5 text-muted">
+        <h5 class="fw-normal">Chưa có sản phẩm nào trong hệ thống.</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop fade show" *ngIf="hienThiForm"></div>
+<div class="modal fade show" tabindex="-1" *ngIf="hienThiForm" style="display: block;">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title fw-bold">
+          {{ spMoi.id === 0 ? '✨ Thêm Sản Phẩm Mới' : '✏️ Sửa Sản Phẩm (ID: ' + spMoi.id + ')' }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="dongForm()"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Mã SP</label>
+            <input type="text" class="form-control form-control-lg" [(ngModel)]="spMoi.productCode" placeholder="VD: IP16">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Tên Sản Phẩm</label>
+            <input type="text" class="form-control form-control-lg" [(ngModel)]="spMoi.name" placeholder="Nhập tên hàng hóa...">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Loại Sản Phẩm</label>
+            <select class="form-select form-select-lg" [(ngModel)]="spMoi.categoryId">
+              <option value="0">-- Vui lòng chọn --</option>
+              <option *ngFor="let loai of danhSachLoaiSP" [value]="loai.id">{{ loai.name }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Đơn vị tính</label>
+            <input type="text" class="form-control form-control-lg" [(ngModel)]="spMoi.unit" placeholder="Cái, Chiếc, Hộp...">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Giá Mua (VND)</label>
+            <input type="number" class="form-control form-control-lg text-primary fw-bold" [(ngModel)]="spMoi.purchasePrice">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Giá Bán (VND)</label>
+            <input type="number" class="form-control form-control-lg text-danger fw-bold" [(ngModel)]="spMoi.sellingPrice">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary fw-bold px-4" (click)="dongForm()">Hủy bỏ</button>
+        <button type="button" class="btn btn-success fw-bold px-4 shadow-sm" (click)="themSanPham()">
+          💾 Lưu Thông Tin
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card shadow-lg border-0 rounded-3 p-4">
+        <h3 class="text-center fw-bold text-success mb-4">🔐 Đăng Nhập Hệ Thống</h3>
+        
+        <div class="mb-3">
+          <label class="fw-bold text-secondary mb-1">Tên đăng nhập</label>
+          <input type="text" class="form-control form-control-lg" [(ngModel)]="tenDangNhap" placeholder="Nhập tài khoản">
+        </div>
+        
+        <div class="mb-4">
+          <label class="fw-bold text-secondary mb-1">Mật khẩu</label>
+          <input type="password" class="form-control form-control-lg" [(ngModel)]="matKhau" placeholder="Nhập mật khẩu">
+        </div>
+        
+        <button class="btn btn-success btn-lg w-100 fw-bold shadow-sm" (click)="dangNhap()">
+          Đăng nhập ngay
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

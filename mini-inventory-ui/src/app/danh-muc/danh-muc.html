@@ -1,0 +1,73 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white shadow-sm rounded border-bottom border-4 border-info">
+    <h3 class="m-0 fw-bold text-dark">📂 Quản lý Danh mục Sản phẩm</h3>
+    <div>
+      <button class="btn btn-info fw-bold me-2 shadow-sm text-white" (click)="moForm()">
+        + Thêm Loại Mới
+      </button>
+      <button class="btn btn-outline-secondary fw-bold shadow-sm" routerLink="/dashboard">
+        🔙 Quay lại trang chủ
+      </button>
+    </div>
+  </div>
+
+  <div class="card shadow border-0">
+    <div class="card-body p-0">
+      <table class="table table-hover table-bordered text-center align-middle m-0">
+        <thead class="table-info">
+          <tr>
+            <th style="width: 100px;">ID</th>
+            <th>Tên Loại Sản Phẩm</th>
+            <th>Mô tả chi tiết</th>
+            <th style="width: 200px;">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dm of danhSachDanhMuc">
+            <td class="fw-bold text-secondary">{{ dm.id }}</td>
+            <td class="fw-bold text-info text-start px-4">{{ dm.name }}</td>
+            <td class="text-muted text-start">{{ dm.description || 'Chưa có mô tả' }}</td>
+            <td>
+              <button class="btn btn-primary btn-sm me-2 shadow-sm" (click)="moForm(dm)">Sửa</button>
+              <button class="btn btn-danger btn-sm shadow-sm" (click)="xoaDanhMuc(dm.id)">Xóa</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div *ngIf="danhSachDanhMuc.length === 0" class="text-center p-5 text-muted">
+        <h5>Hệ thống chưa có danh mục nào.</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop fade show" *ngIf="hienThiForm"></div>
+<div class="modal fade show d-block" *ngIf="hienThiForm" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title fw-bold">
+          {{ dmMoi.id === 0 ? '✨ Thêm Danh mục Mới' : '✏️ Chỉnh sửa Danh mục (ID: ' + dmMoi.id + ')' }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="dongForm()"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="mb-3">
+          <label class="form-label fw-bold text-secondary">Tên loại sản phẩm</label>
+          <input type="text" class="form-control form-control-lg" [(ngModel)]="dmMoi.name" placeholder="VD: Laptop, Phụ kiện...">
+        </div>
+        <div class="mb-0">
+          <label class="form-label fw-bold text-secondary">Mô tả (Không bắt buộc)</label>
+          <textarea class="form-control" [(ngModel)]="dmMoi.description" rows="3" placeholder="Mô tả ngắn gọn về loại hàng này..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer bg-light">
+        <button class="btn btn-secondary fw-bold px-4" (click)="dongForm()">Hủy bỏ</button>
+        <button class="btn btn-info text-white fw-bold px-4 shadow-sm" (click)="luuDanhMuc()">
+          💾 Lưu danh mục
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

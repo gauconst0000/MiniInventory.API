@@ -1,0 +1,38 @@
+<div class="container mt-5 pt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center py-3">
+          <h4 class="mb-0">📦 Lập Phiếu Nhập Kho</h4>
+        </div>
+        
+        <div class="card-body p-4">
+          <div class="mb-4">
+            <label class="form-label fw-bold text-secondary">1. Chọn mặt hàng cần nhập</label>
+            <select class="form-select form-select-lg" [(ngModel)]="sanPhamChonId">
+              <option value="0" disabled>-- Vui lòng chọn sản phẩm --</option>
+              <option *ngFor="let sp of danhSachSanPham" [value]="sp.id">
+                {{ sp.name }} (Tồn hiện tại: {{ sp.stockQuantity }})
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-bold text-secondary">2. Số lượng nhập thêm</label>
+            <input type="number" class="form-control form-control-lg" [(ngModel)]="soLuongNhap" placeholder="Ví dụ: 50">
+          </div>
+
+          <button class="btn btn-primary btn-lg w-100 fw-bold shadow-sm" (click)="luuPhieuNhap()">
+            Xác Nhận Nhập Kho
+          </button>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-outline-secondary" routerLink="/dashboard">
+          🔙 Quay lại trang Quản lý
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

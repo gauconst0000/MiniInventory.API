@@ -5,7 +5,7 @@
 ---
 
 ## 🚀 Technical Achievements (Thành quả kỹ thuật)
-*Gửi anh Tùng Leader, dựa trên những góp ý sát sao của anh về cấu trúc hệ thống, em đã thực hiện đợt Refactoring lớn để chuyển đổi dự án từ mức "chạy được" sang mức "chuẩn doanh nghiệp":*
+*Gửi anh Tùng, dựa trên những góp ý sát sao của anh về cấu trúc hệ thống, em đã thực hiện đợt Refactoring lớn để chuyển đổi dự án từ mức "chạy được" sang mức "chuẩn doanh nghiệp":*
 
 ### 🏗️ Backend Architecture (.NET 8 & EF Core)
 * **Service Layer Pattern:** Triệt để tách Business Logic ra khỏi Controllers. Toàn bộ logic tính toán tồn kho được xử lý tại `InventoryService` và `ProductService`.

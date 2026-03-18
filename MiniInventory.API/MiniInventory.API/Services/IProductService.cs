@@ -2,10 +2,12 @@
 
 namespace MiniInventory.API.Services
 {
-    // Chữ 'interface' thay vì 'class'
     public interface IProductService
     {
-        // Khai báo món số 1: Thêm sản phẩm (Chỉ ghi tên, không ghi cách làm)
+        Task<IEnumerable<Product>> GetProductsAsync();
+        Task<Product?> GetProductByIdAsync(int id);
         Task<Product> AddProductAsync(Product product);
+        Task UpdateProductAsync(Product product);
+        Task DeleteProductAsync(int id);
     }
 }

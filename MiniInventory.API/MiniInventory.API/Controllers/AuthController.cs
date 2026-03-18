@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using MiniInventory.API.Data;
 using MiniInventory.API.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using MiniInventory.API.Services;
 
 namespace MiniInventory.API.Controllers
 {
@@ -12,49 +8,40 @@ namespace MiniInventory.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IConfiguration _configuration;
+        // CHỈ GỌI AUTH SERVICE
+        private readonly IAuthService _authService;
 
-        public AuthController(ApplicationDbContext context, IConfiguration configuration)
+        public AuthController(IAuthService authService)
         {
-            _context = context;
-            _configuration = configuration;
+            _authService = authService;
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] User loginModel)
+        public async Task<IActionResult> Login([FromBody] User loginModel)
         {
-            // 1. Kiểm tra tài khoản trong Database
-            var user = _context.Users.FirstOrDefault(u => u.Username == loginModel.Username && u.PasswordHash == loginModel.PasswordHash);
-
-            if (user == null)
+            try
             {
-                return Unauthorized("Sai tài khoản hoặc mật khẩu!");
+                var token = await _authService.LoginAsync(loginModel);
+                return Ok(new { token = token }); // Trả về Token cho Angular
             }
-
-            // 2. Nếu đúng, tiến hành tạo "thẻ từ" JWT Token
-            var authClaims = new List<Claim>
+            catch (Exception ex)
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
+                return Unauthorized(ex.Message); // Sai pass thì báo lỗi 401
+            }
+        }
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                expires: DateTime.Now.AddHours(3), // Thẻ có tác dụng trong 3 tiếng
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-            );
-
-            return Ok(new
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] User registerModel)
+        {
+            try
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
-            });
+                var message = await _authService.RegisterAsync(registerModel);
+                return Ok(message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message); // Trùng tên thì báo lỗi 400
+            }
         }
     }
 }

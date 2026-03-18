@@ -25,7 +25,7 @@ namespace MiniInventory.API.Data
                 {
                     Id = 1,
                     Username = "admin",
-                    PasswordHash = "123456", // Trong thực tế nên mã hóa, nhưng ở mức cơ bản ta để nguyên theo yêu cầu
+                    PasswordHash = "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa",
                     Role = "Admin"
                 }
             );

@@ -18,6 +18,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Mỗi khi có người cần IProductService, hãy cử Đầu bếp ProductService ra phục vụ
 builder.Services.AddScoped<IProductService, ProductService>();
 // =======================================================
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // 2. Cấu hình Xác thực JWT
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);

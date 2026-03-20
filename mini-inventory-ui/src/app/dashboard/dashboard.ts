@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ProductForm } from '../shared/components/product-form/product-form';
+import { environment } from '../../environments/environment';
 
 
 
@@ -42,7 +43,7 @@ export class DashboardComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    this.http.get('https://localhost:7089/api/Products', { headers: headers })
+    this.http.get(environment.apiUrl + '/Products', { headers: headers })
       .subscribe({
         next: (data: any) => {
           this.danhSachSanPham = data.$values || data;
@@ -58,7 +59,7 @@ export class DashboardComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    this.http.get('https://localhost:7089/api/Categories', { headers: headers })
+    this.http.get(environment.apiUrl + '/Categories', { headers: headers })
       .subscribe({
         next: (data: any) => {
           this.danhSachLoaiSP = data.$values || data;
@@ -71,7 +72,7 @@ export class DashboardComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    this.http.get('https://localhost:7089/api/Reports/low-stock', { headers: headers })
+    this.http.get(environment.apiUrl + '/Reports/low-stock', { headers: headers })
       .subscribe({
         next: (data: any) => {
           this.hangSapHet = data.$values || data;
@@ -85,7 +86,7 @@ export class DashboardComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    this.http.get('https://localhost:7089/api/InventoryTransactions', { headers: headers })
+    this.http.get(environment.apiUrl + '/InventoryTransactions', { headers: headers })
       .subscribe({
         next: (data: any) => {
           let tatCaGiaoDich = data.$values || data;
@@ -122,7 +123,7 @@ export class DashboardComponent implements OnInit {
     }
 
     if (this.spMoi.id === 0) {
-      this.http.post('https://localhost:7089/api/Products', this.spMoi, { headers: headers })
+      this.http.post(environment.apiUrl + '/Products', this.spMoi, { headers: headers })
         .subscribe({
           next: () => { 
             alert('🎉 Thêm thành công!'); 
@@ -136,7 +137,7 @@ export class DashboardComponent implements OnInit {
           }
         });
     } else {
-      this.http.put('https://localhost:7089/api/Products/' + this.spMoi.id, this.spMoi, { headers: headers })
+      this.http.put(environment.apiUrl + '/Products/' + this.spMoi.id, this.spMoi, { headers: headers })
         .subscribe({
           next: () => { 
             alert('🎉 Cập nhật thành công!'); 
@@ -158,7 +159,7 @@ export class DashboardComponent implements OnInit {
       const token = localStorage.getItem('token');
       const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-      this.http.delete(`https://localhost:7089/api/Products/${id}`, { headers: headers })
+      this.http.delete(`${environment.apiUrl}/Products/${id}`, { headers: headers })
         .subscribe({
           next: () => {
             alert('✅ Đã dọn dẹp sản phẩm thành công!');

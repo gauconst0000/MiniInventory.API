@@ -89,6 +89,7 @@
             <th>Thời Gian</th>
             <th>Mã Phiếu</th>
             <th>Loại</th>
+            <th class="text-start">Chi Tiết Sản Phẩm</th>
             <th>Người Thực Hiện</th>
             <th class="text-start">Ghi Chú</th>
           </tr>
@@ -102,6 +103,12 @@
                     [ngClass]="{'bg-success': gd.transactionType === 'Inbound', 'bg-danger': gd.transactionType === 'Outbound'}">
                 {{ gd.transactionType === 'Inbound' ? 'NHẬP KHO' : 'XUẤT KHO' }}
               </span>
+            </td>
+            <td class="text-start">
+              <div *ngFor="let ct of (gd.transactionDetails?.$values || gd.transactionDetails || gd.TransactionDetails?.$values || gd.TransactionDetails)" class="mb-1">
+                👉 <strong class="text-dark">{{ ct?.product?.name || ct?.product?.Name || ct?.Product?.name || ct?.Product?.Name || 'SP không xác định' }}</strong> 
+                <span class="text-danger fw-bold"> (SL: {{ ct?.quantity || ct?.Quantity }})</span>
+              </div>
             </td>
             <td class="fw-bold">{{ gd.contactPerson }}</td>
             <td class="text-start text-muted fst-italic">{{ gd.notes }}</td>

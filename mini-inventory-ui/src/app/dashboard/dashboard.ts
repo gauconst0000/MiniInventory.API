@@ -6,12 +6,9 @@ import { Router, RouterModule } from '@angular/router';
 import { ProductForm } from '../shared/components/product-form/product-form';
 import { environment } from '../../environments/environment';
 
-
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  // Đã nạp ProductFormComponent vào mảng imports hợp lệ
   imports: [FormsModule, CommonModule, RouterModule, ProductForm], 
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
@@ -43,12 +40,22 @@ export class DashboardComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    this.http.get(environment.apiUrl + '/Products', { headers: headers })
+    // 🚀 BÙA CHỐNG CACHE: Thêm timestamp vào đuôi URL để ép Chrome tải dữ liệu mới 100%
+    const urlChongCache = environment.apiUrl + '/Products?t=' + new Date().getTime();
+
+    this.http.get(urlChongCache, { headers: headers })
       .subscribe({
         next: (data: any) => {
-          this.danhSachSanPham = data.$values || data;
+          let tatCaSanPham = data.$values || data;
+          
+          this.danhSachSanPham = tatCaSanPham.filter((sp: any) => {
+            const statusLower = (sp.Status || sp.status || 'ACTIVE').toLowerCase();
+            return statusLower !== 'inactive';
+          });
+          
           this.tongSoMatHang = this.danhSachSanPham.length;
-          this.tongSoTonKho = this.danhSachSanPham.reduce((tong, sp) => tong + sp.stockQuantity, 0);
+          this.tongSoTonKho = this.danhSachSanPham.reduce((tong: any, sp: any) => tong + sp.stockQuantity, 0);
+          
           this.cdr.detectChanges(); 
         },
         error: (err) => console.error('Lỗi lấy hàng:', err)
@@ -72,7 +79,10 @@ export class DashboardComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    this.http.get(environment.apiUrl + '/Reports/low-stock', { headers: headers })
+    // 🚀 BÙA CHỐNG CACHE: Ép tải lại báo cáo mới nhất
+    const urlChongCache = environment.apiUrl + '/Reports/low-stock?t=' + new Date().getTime();
+
+    this.http.get(urlChongCache, { headers: headers })
       .subscribe({
         next: (data: any) => {
           this.hangSapHet = data.$values || data;
@@ -86,7 +96,10 @@ export class DashboardComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    this.http.get(environment.apiUrl + '/InventoryTransactions', { headers: headers })
+    // 🚀 BÙA CHỐNG CACHE: Ép tải lại lịch sử (Giải quyết lỗi SP Không xác định)
+    const urlChongCache = environment.apiUrl + '/InventoryTransactions?t=' + new Date().getTime();
+
+    this.http.get(urlChongCache, { headers: headers })
       .subscribe({
         next: (data: any) => {
           let tatCaGiaoDich = data.$values || data;
@@ -153,7 +166,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  xoaSanPham(id: number) {
+  xoaSanPham(id: any) { 
     const xacNhan = confirm('⚠️ Em có chắc chắn muốn xóa sản phẩm này khỏi kho không?');
     if (xacNhan) {
       const token = localStorage.getItem('token');
@@ -163,7 +176,19 @@ export class DashboardComponent implements OnInit {
         .subscribe({
           next: () => {
             alert('✅ Đã dọn dẹp sản phẩm thành công!');
-            this.layDanhSachHangHoa();
+            
+            // 1. Lọc sản phẩm ra khỏi bảng danh sách chính
+            this.danhSachSanPham = this.danhSachSanPham.filter((sp: any) => (sp.Id || sp.id) != id); 
+            
+            // 🚀 2. MA THUẬT Ở ĐÂY: Xóa luôn nó khỏi bảng Cảnh báo bên trên
+            this.hangSapHet = this.hangSapHet.filter((sp: any) => (sp.Id || sp.id) != id);
+
+            // 3. Tính toán lại tổng số
+            this.tongSoMatHang = this.danhSachSanPham.length;
+            this.tongSoTonKho = this.danhSachSanPham.reduce((tong: any, sp: any) => tong + sp.stockQuantity, 0);
+
+            // 4. Ép Angular vẽ lại màn hình ngay lập tức
+            this.cdr.detectChanges(); 
           },
           error: (err) => {
             console.error('Lỗi khi xóa:', err);

@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DashboardComponent } from './dashboard'; // 🚀 Đã sửa tên đúng
 
-import { Dashboard } from './dashboard';
-
-describe('Dashboard', () => {
-  let component: Dashboard;
-  let fixture: ComponentFixture<Dashboard>;
+describe('DashboardComponent', () => {
+  let component: DashboardComponent; // 🚀 Đã sửa tên đúng
+  let fixture: ComponentFixture<DashboardComponent>; // 🚀 Đã sửa tên đúng
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Dashboard],
+      imports: [DashboardComponent], // 🚀 Đã sửa tên đúng
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Dashboard);
+    fixture = TestBed.createComponent(DashboardComponent); // 🚀 Đã sửa tên đúng
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

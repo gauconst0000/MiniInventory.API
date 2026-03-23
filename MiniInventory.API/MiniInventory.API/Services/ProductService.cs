@@ -50,11 +50,25 @@ namespace MiniInventory.API.Services
         public async Task DeleteProductAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            if (product == null) return;
+
+            // 1. Kiểm tra xem sản phẩm đã có lịch sử giao dịch chưa
+            var hasTransactions = await _context.InventoryTransactionDetails
+                                                .AnyAsync(t => t.ProductId == id);
+
+            if (hasTransactions)
             {
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
+                // 2. Nếu ĐÃ CÓ giao dịch -> Chuyển trạng thái
+                product.Status = "INACTIVE";
+                _context.Entry(product).State = EntityState.Modified;
             }
+            else
+            {
+                // 3. Nếu CHƯA CÓ giao dịch -> Cho phép xóa vật lý
+                _context.Products.Remove(product);
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

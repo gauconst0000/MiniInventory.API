@@ -42,7 +42,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // 3. Cấu hình Controllers và XỬ LÝ VÒNG LẶP JSON (Quan trọng)
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    // 🚀 MA THUẬT XÓA BỎ LỚP MÀN ẢO VÀ SP KHÔNG XÁC ĐỊNH
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
 
 // Thêm đoạn này để cấp phép cho Angular (Cổng 4200)

@@ -8,6 +8,8 @@ namespace MiniInventory.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    // 🚀 Lệnh chuẩn Enterprise: Cấm mọi trình duyệt lưu Cache API này
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class ProductsController : ControllerBase
     {
         // CHỈ GỌI SERVICE, TUYỆT ĐỐI KHÔNG GỌI DBCONTEXT
@@ -59,8 +61,9 @@ namespace MiniInventory.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
+            // Gọi thẳng vào Service hoàn hảo của em
             await _productService.DeleteProductAsync(id);
-            return NoContent();
+            return Ok(new { message = "Thao tác thành công, dữ liệu lịch sử được bảo toàn." });
         }
     }
 }

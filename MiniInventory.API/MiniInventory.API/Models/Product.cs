@@ -21,5 +21,7 @@ namespace MiniInventory.API.Models
 
         [JsonIgnore] // <-- Thêm cái này
         public Category? Category { get; set; }
+
+        public string Status { get; set; } = "ACTIVE";
     }
 }

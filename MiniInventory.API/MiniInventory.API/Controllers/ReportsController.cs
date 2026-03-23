@@ -23,7 +23,7 @@ namespace MiniInventory.API.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> GetLowStockProducts()
         {
             var products = await _context.Products
-                .Where(p => p.StockQuantity < 10)
+                .Where(p => p.StockQuantity < 10 && p.Status != "Inactive") // 🚀 ĐÃ THÊM BỘ LỌC Ở ĐÂY
                 .ToListAsync();
 
             return Ok(products);

@@ -16,7 +16,10 @@ namespace MiniInventory.API.Services
         public async Task<IEnumerable<InventoryTransaction>> GetTransactionsAsync()
         {
             return await _context.InventoryTransactions
+                // 1. Kéo chi tiết phiếu giao dịch
                 .Include(t => t.TransactionDetails)
+                    // 🚀 2. MA THUẬT Ở ĐÂY: Từ chi tiết phiếu, móc nối sang bảng Products để lấy Tên
+                    .ThenInclude(td => td.Product)
                 .ToListAsync();
         }
 

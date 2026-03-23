@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  backend-api:
+    build:
+      context: ./MiniInventory.API/MiniInventory.API
+      dockerfile: Dockerfile
+    ports:
+      - "7089:8080"
+    # --- THÊM PHẦN NÀY VÀO ---
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    # -------------------------
+
+  frontend-ui:
+    build:
+      context: ./mini-inventory-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend-api

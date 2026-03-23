@@ -8,6 +8,8 @@ namespace MiniInventory.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    // 🚀 Lệnh chuẩn Enterprise: Cấm mọi trình duyệt lưu Cache API này
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class InventoryTransactionsController : ControllerBase
     {
         // TIẾP TỤC TUYỆT ĐỐI KHÔNG GỌI DBCONTEXT

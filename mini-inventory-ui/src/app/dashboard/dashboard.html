@@ -161,53 +161,11 @@
   </div>
 </div>
 
-<div class="modal-backdrop fade show" *ngIf="hienThiForm"></div>
-<div class="modal fade show" tabindex="-1" *ngIf="hienThiForm" style="display: block;">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content shadow-lg border-0">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title fw-bold">
-          {{ spMoi.id === 0 ? '✨ Thêm Sản Phẩm Mới' : '✏️ Sửa Sản Phẩm (ID: ' + spMoi.id + ')' }}
-        </h5>
-        <button type="button" class="btn-close btn-close-white" (click)="dongForm()"></button>
-      </div>
-      <div class="modal-body p-4">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label fw-bold text-secondary">Mã SP</label>
-            <input type="text" class="form-control form-control-lg" [(ngModel)]="spMoi.productCode" placeholder="VD: IP16">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fw-bold text-secondary">Tên Sản Phẩm</label>
-            <input type="text" class="form-control form-control-lg" [(ngModel)]="spMoi.name" placeholder="Nhập tên hàng hóa...">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fw-bold text-secondary">Loại Sản Phẩm</label>
-            <select class="form-select form-select-lg" [(ngModel)]="spMoi.categoryId">
-              <option value="0">-- Vui lòng chọn --</option>
-              <option *ngFor="let loai of danhSachLoaiSP" [value]="loai.id">{{ loai.name }}</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fw-bold text-secondary">Đơn vị tính</label>
-            <input type="text" class="form-control form-control-lg" [(ngModel)]="spMoi.unit" placeholder="Cái, Chiếc, Hộp...">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fw-bold text-secondary">Giá Mua (VND)</label>
-            <input type="number" class="form-control form-control-lg text-primary fw-bold" [(ngModel)]="spMoi.purchasePrice">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fw-bold text-secondary">Giá Bán (VND)</label>
-            <input type="number" class="form-control form-control-lg text-danger fw-bold" [(ngModel)]="spMoi.sellingPrice">
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer bg-light">
-        <button type="button" class="btn btn-secondary fw-bold px-4" (click)="dongForm()">Hủy bỏ</button>
-        <button type="button" class="btn btn-success fw-bold px-4 shadow-sm" (click)="themSanPham()">
-          💾 Lưu Thông Tin
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-product-form
+  *ngIf="hienThiForm"
+  [hienThiForm]="hienThiForm"
+  [spMoi]="spMoi"
+  [danhSachLoaiSP]="danhSachLoaiSP"
+  (dongFormEvent)="dongForm()"
+  (luuSanPhamEvent)="themSanPham()">
+</app-product-form>

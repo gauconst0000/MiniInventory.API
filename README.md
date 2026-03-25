@@ -50,8 +50,5 @@ ng serve
 Truy cập ứng dụng tại: http://localhost:4200
 
 📝 Nhật ký cập nhật (Changelog) gần nhất
-Refactor Backend: Chuyển đổi toàn bộ xử lý nghiệp vụ sang Service Pattern.
-
-Security: Nâng cấp thuật toán băm mật khẩu với BCrypt.
-
-Refactor Frontend: Xây dựng app-product-form làm Shared Component. Tích hợp Reactive Forms để validate dữ liệu đầu vào. Tách cấu hình domain API vào file environment.
+Em vừa push thêm một bản vá lên nhánh main ạ.
+Nãy test em phát hiện ra lỗi mấy sản phẩm bị xóa mềm (Inactive) vẫn hiện lù lù trong Dropdown lúc lập phiếu Nhập/Xuất, nên em đã bổ sung filter chặn đứng nó luôn rồi để tránh user chọn nhầm.

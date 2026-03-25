@@ -18,7 +18,6 @@ namespace MiniInventory.API.Models
 
         public int ProductId { get; set; }
 
-        [JsonIgnore] // <-- Thêm cái này
         public Product? Product { get; set; }
     }
 }

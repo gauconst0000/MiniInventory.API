@@ -15,12 +15,35 @@ namespace MiniInventory.API.Services
 
         public async Task<IEnumerable<InventoryTransaction>> GetTransactionsAsync()
         {
-            return await _context.InventoryTransactions
-                // 1. Kéo chi tiết phiếu giao dịch
-                .Include(t => t.TransactionDetails)
-                    // 🚀 2. MA THUẬT Ở ĐÂY: Từ chi tiết phiếu, móc nối sang bảng Products để lấy Tên
-                    .ThenInclude(td => td.Product)
+            // 🚀 Lời giải của sếp Tùng: Bỏ Include, tự viết LINQ Select để Join dữ liệu
+            var transactions = await _context.InventoryTransactions
+                .AsNoTracking()
+                .Select(t => new InventoryTransaction
+                {
+                    Id = t.Id,
+                    TransactionDate = t.TransactionDate,
+                    TransactionType = t.TransactionType,
+                    ContactPerson = t.ContactPerson,
+                    Notes = t.Notes,
+
+                    // 1. Tự móc sang bảng Details (chi tiết phiếu)
+                    TransactionDetails = _context.InventoryTransactionDetails
+                        .Where(td => td.TransactionId == t.Id)
+                        .Select(td => new InventoryTransactionDetail
+                        {
+                            Id = td.Id,
+                            TransactionId = td.TransactionId,
+                            ProductId = td.ProductId,
+                            Quantity = td.Quantity,
+                            UnitPrice = td.UnitPrice,
+
+                            // 🚀 2. Tự Join sang bảng Product bằng tay để lấy tên!
+                            Product = _context.Products.FirstOrDefault(p => p.Id == td.ProductId)
+                        }).ToList()
+                })
                 .ToListAsync();
+
+            return transactions;
         }
 
         public async Task<InventoryTransaction> CreateTransactionAsync(InventoryTransaction transaction)

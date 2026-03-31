@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -29,10 +30,10 @@ export class NhapKhoComponent implements OnInit {
   layDanhSachSanPham() {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+  'Authorization': 'Bearer ' + token
+});
 
-    this.http.get('https://localhost:7089/api/Products', { headers }).subscribe({
+    this.http.get(environment.apiUrl + '/Products', { headers }).subscribe({
       next: (data: any) => {
         // CHÚ Ý CHỖ NÀY: Phải có .$values để mở hộp C# nhé em
         this.danhSachSanPham = data.$values || data; 
@@ -69,10 +70,12 @@ export class NhapKhoComponent implements OnInit {
     };
 
     const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    const headers = new HttpHeaders({
+  'Authorization': 'Bearer ' + token
+});
 
     // GỌI ĐÚNG 1 LẦN DUY NHẤT LÀ XONG VIỆC
-    this.http.post('https://localhost:7089/api/InventoryTransactions', phieuNhap, { headers })
+    this.http.post(environment.apiUrl + '/InventoryTransactions', phieuNhap, { headers })
       .subscribe({
         next: () => {
           alert(`🎉 Thành công! Đã nhập ${this.soLuongNhap} sản phẩm chuẩn nghiệp vụ!`);

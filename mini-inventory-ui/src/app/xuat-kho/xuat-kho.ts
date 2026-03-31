@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-xuat-kho',
@@ -26,9 +27,9 @@ export class XuatKhoComponent implements OnInit {
   // 1. Lấy danh sách sản phẩm để đưa vào Dropdown (Giống hệt Nhập kho)
   layDanhSachSanPham() {
     const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
 
-    this.http.get('https://localhost:7089/api/Products', { headers }).subscribe({
+    this.http.get(environment.apiUrl + '/Products', { headers }).subscribe({
       next: (data: any) => {
         this.danhSachSanPham = data.$values || data;
         this.cdr.detectChanges(); // Thổi còi gọi Angular vẽ giao diện
@@ -67,9 +68,9 @@ export class XuatKhoComponent implements OnInit {
     };
 
     const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
 
-    this.http.post('https://localhost:7089/api/InventoryTransactions', phieuXuat, { headers })
+    this.http.post(environment.apiUrl + '/InventoryTransactions', phieuXuat, { headers })
       .subscribe({
         next: () => {
           alert(`🎉 Thành công! Đã xuất ${this.soLuongXuat} sản phẩm khỏi kho!`);

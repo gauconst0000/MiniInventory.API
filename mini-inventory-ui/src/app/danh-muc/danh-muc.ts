@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-danh-muc',
@@ -26,8 +27,8 @@ export class DanhMucComponent implements OnInit {
   // 1. Lấy danh sách Category từ Backend
   layDanhSach() {
     const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-    this.http.get('https://localhost:7089/api/Categories', { headers }).subscribe({
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
+    this.http.get(environment.apiUrl + '/Categories', { headers }).subscribe({
       next: (data: any) => {
         this.danhSachDanhMuc = data.$values || data;
         this.cdr.detectChanges(); // Gọi Angular vẽ lại giao diện
@@ -41,11 +42,11 @@ export class DanhMucComponent implements OnInit {
     if (!this.dmMoi.name) { alert("⚠️ Tên loại không được để trống!"); return; }
 
     const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
 
     if (this.dmMoi.id === 0) {
       // THÊM MỚI
-      this.http.post('https://localhost:7089/api/Categories', this.dmMoi, { headers }).subscribe({
+      this.http.post(environment.apiUrl + '/Categories', this.dmMoi, { headers }).subscribe({
         next: () => { 
           alert("✨ Thêm danh mục mới thành công!"); 
           this.dongForm(); 
@@ -71,8 +72,8 @@ export class DanhMucComponent implements OnInit {
     const xacNhan = confirm("⚠️ Nếu xóa danh mục này, các sản phẩm thuộc loại này có thể bị ảnh hưởng. Em chắc chắn chứ?");
     if (xacNhan) {
       const token = localStorage.getItem('token');
-      const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-      this.http.delete(`https://localhost:7089/api/Categories/${id}`, { headers }).subscribe({
+      const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
+      this.http.delete(`${environment.apiUrl}/Categories/${id}`, { headers }).subscribe({
         next: () => { 
           alert("✅ Đã xóa danh mục thành công!"); 
           this.layDanhSach(); 

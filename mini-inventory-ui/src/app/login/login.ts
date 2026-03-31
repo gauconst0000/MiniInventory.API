@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent {
     // 1. In ra xem Angular có lấy được đúng chữ 'admin' và '123456' không
     console.log("Dữ liệu chuẩn bị gửi đi:", duLieu); 
 
-    this.http.post('https://localhost:7089/api/Auth/login', duLieu).subscribe({
+    this.http.post(environment.apiUrl + '/Auth/login', duLieu).subscribe({
       next: (res: any) => {
         console.log("Đăng nhập thành công!", res);
         localStorage.setItem('token', res.token); 

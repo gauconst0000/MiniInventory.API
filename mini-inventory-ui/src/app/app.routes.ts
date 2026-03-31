@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard';
 import { NhapKhoComponent } from './nhap-kho/nhap-kho';
 import { XuatKhoComponent } from './xuat-kho/xuat-kho'; // Đường dẫn có thể thay đổi tùy cách em đặt tên file
 import { DanhMucComponent } from './danh-muc/danh-muc';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   // 1. Nếu người dùng vào trang web mà không gõ gì, tự động đưa về trang Login
@@ -13,8 +14,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   
   // 3. Định nghĩa đường dẫn cho trang Dashboard
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'nhap-kho', component: NhapKhoComponent },
-  { path: 'xuat-kho', component: XuatKhoComponent },
-  { path: 'danh-muc', component: DanhMucComponent }
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+  { path: 'nhap-kho', component: NhapKhoComponent, canActivate: [authGuard] },
+  { path: 'xuat-kho', component: XuatKhoComponent, canActivate: [authGuard] },
+  { path: 'danh-muc', component: DanhMucComponent, canActivate: [authGuard] }
 ];

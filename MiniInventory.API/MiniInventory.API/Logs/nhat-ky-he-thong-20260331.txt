@@ -1,0 +1,40 @@
+2026-03-31 02:09:02.918 +00:00 [WRN] Using an in-memory repository. Keys will not be persisted to storage.
+2026-03-31 02:09:03.043 +00:00 [WRN] Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits.
+2026-03-31 02:09:03.073 +00:00 [INF] ⏳ [CRONJOB] Bảo vệ ca đêm đã vào ca!
+2026-03-31 02:09:03.077 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:09:03.0760604+00:00"
+2026-03-31 02:09:03.089 +00:00 [INF] Creating key {863df8b3-b0eb-4521-9672-07a9a5fae28a} with creation date 2026-03-31 02:09:03Z, activation date 2026-03-31 02:09:03Z, and expiration date 2026-06-29 02:09:03Z.
+2026-03-31 02:09:03.181 +00:00 [WRN] No XML encryptor configured. Key {863df8b3-b0eb-4521-9672-07a9a5fae28a} may be persisted to storage in unencrypted form.
+2026-03-31 02:09:03.818 +00:00 [INF] Now listening on: http://[::]:8080
+2026-03-31 02:09:03.821 +00:00 [INF] Now listening on: https://[::]:8081
+2026-03-31 02:09:03.824 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-31 02:09:03.826 +00:00 [INF] Hosting environment: Development
+2026-03-31 02:09:03.827 +00:00 [INF] Content root path: /app
+2026-03-31 02:09:05.103 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/index.html - null null
+2026-03-31 02:09:05.307 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/index.html - 200 null text/html;charset=utf-8 205.5337ms
+2026-03-31 02:09:05.492 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/v1/swagger.json - null null
+2026-03-31 02:09:05.720 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 228.2951ms
+2026-03-31 02:09:13.119 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:09:13.1193456+00:00"
+2026-03-31 02:09:20.864 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:09:20.8642819+00:00"
+2026-03-31 02:09:30.873 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:09:30.8732593+00:00"
+2026-03-31 02:09:40.885 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:09:40.8856864+00:00"
+2026-03-31 02:09:48.594 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:09:48.5948212+00:00"
+2026-03-31 02:09:58.601 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:09:58.6010571+00:00"
+2026-03-31 02:10:08.616 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:10:08.6162204+00:00"
+2026-03-31 02:10:16.358 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:10:16.3582517+00:00"
+2026-03-31 02:10:26.363 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:10:26.3632220+00:00"
+2026-03-31 02:10:36.384 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:10:36.3840222+00:00"
+2026-03-31 02:10:44.096 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:10:44.0961553+00:00"
+2026-03-31 02:10:54.103 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:10:54.1033392+00:00"
+2026-03-31 02:11:04.107 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:11:04.1072754+00:00"
+2026-03-31 02:11:11.823 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:11:11.8237871+00:00"
+2026-03-31 02:11:21.839 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:11:21.8388834+00:00"
+2026-03-31 02:11:31.913 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:11:31.9104909+00:00"
+2026-03-31 02:11:39.620 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:11:39.6201536+00:00"
+2026-03-31 02:11:49.633 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:11:49.6321449+00:00"
+2026-03-31 02:11:59.643 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:11:59.6430805+00:00"
+2026-03-31 02:12:07.349 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:12:07.3492067+00:00"
+2026-03-31 02:12:17.350 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:12:17.3497833+00:00"
+2026-03-31 02:12:27.355 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:12:27.3549203+00:00"
+2026-03-31 02:12:35.039 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:12:35.0392229+00:00"
+2026-03-31 02:12:45.059 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:12:45.0595346+00:00"
+2026-03-31 02:12:55.065 +00:00 [INF] 🔍 [CRONJOB] Đang tự động đi tuần tra kho hàng lúc: "2026-03-31T02:12:55.0650295+00:00"

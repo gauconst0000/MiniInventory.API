@@ -1,0 +1,123 @@
+2026-03-30 08:00:14.654 +00:00 [WRN] Using an in-memory repository. Keys will not be persisted to storage.
+2026-03-30 08:00:14.704 +00:00 [WRN] Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits.
+2026-03-30 08:00:14.716 +00:00 [INF] Creating key {dbcc3a55-9e4c-45bb-a3c2-7e9ab3045837} with creation date 2026-03-30 08:00:14Z, activation date 2026-03-30 08:00:14Z, and expiration date 2026-06-28 08:00:14Z.
+2026-03-30 08:00:14.760 +00:00 [WRN] No XML encryptor configured. Key {dbcc3a55-9e4c-45bb-a3c2-7e9ab3045837} may be persisted to storage in unencrypted form.
+2026-03-30 08:00:15.141 +00:00 [INF] Now listening on: http://[::]:8080
+2026-03-30 08:00:15.142 +00:00 [INF] Now listening on: https://[::]:8081
+2026-03-30 08:00:15.145 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-30 08:00:15.146 +00:00 [INF] Hosting environment: Development
+2026-03-30 08:00:15.147 +00:00 [INF] Content root path: /app
+2026-03-30 08:00:15.938 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger - null null
+2026-03-30 08:00:15.963 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger - 301 0 null 25.7857ms
+2026-03-30 08:00:15.988 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/index.html - null null
+2026-03-30 08:00:16.050 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/index.html - 200 null text/html;charset=utf-8 60.9101ms
+2026-03-30 08:00:16.127 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/swagger-ui-bundle.js - null null
+2026-03-30 08:00:16.127 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/swagger-ui.css - null null
+2026-03-30 08:00:16.150 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/swagger-ui-standalone-preset.js - null null
+2026-03-30 08:00:16.201 +00:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-03-30 08:00:16.202 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/swagger-ui.css - 200 152034 text/css 75.0928ms
+2026-03-30 08:00:16.213 +00:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-03-30 08:00:16.215 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 64.6765ms
+2026-03-30 08:00:16.307 +00:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-03-30 08:00:16.307 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 180.2114ms
+2026-03-30 08:00:16.585 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/v1/swagger.json - null null
+2026-03-30 08:00:16.617 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/favicon-32x32.png - null null
+2026-03-30 08:00:16.619 +00:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-03-30 08:00:16.620 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/favicon-32x32.png - 200 628 image/png 4.1145ms
+2026-03-30 08:00:16.679 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 93.7156ms
+2026-03-30 08:00:45.344 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/api/Products - null null
+2026-03-30 08:00:45.481 +00:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-03-30 08:00:45.485 +00:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-03-30 08:00:45.486 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/api/Products - 401 0 null 142.7695ms
+2026-03-30 08:18:47.203 +00:00 [WRN] Using an in-memory repository. Keys will not be persisted to storage.
+2026-03-30 08:18:47.251 +00:00 [WRN] Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits.
+2026-03-30 08:18:47.264 +00:00 [INF] Creating key {037230f9-4fec-49ce-bfb3-94eddac060a3} with creation date 2026-03-30 08:18:47Z, activation date 2026-03-30 08:18:47Z, and expiration date 2026-06-28 08:18:47Z.
+2026-03-30 08:18:47.306 +00:00 [WRN] No XML encryptor configured. Key {037230f9-4fec-49ce-bfb3-94eddac060a3} may be persisted to storage in unencrypted form.
+2026-03-30 08:18:47.624 +00:00 [INF] Now listening on: http://[::]:8080
+2026-03-30 08:18:47.626 +00:00 [INF] Now listening on: https://[::]:8081
+2026-03-30 08:18:47.630 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-30 08:18:47.633 +00:00 [INF] Hosting environment: Development
+2026-03-30 08:18:47.635 +00:00 [INF] Content root path: /app
+2026-03-30 08:18:48.272 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/index.html - null null
+2026-03-30 08:18:48.380 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/index.html - 200 null text/html;charset=utf-8 108.4162ms
+2026-03-30 08:18:48.581 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/swagger/v1/swagger.json - null null
+2026-03-30 08:18:48.669 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 87.9339ms
+2026-03-30 08:19:09.283 +00:00 [INF] Request starting HTTP/2 POST https://localhost:32769/api/Auth/login - application/json 84
+2026-03-30 08:19:09.294 +00:00 [INF] CORS policy execution failed.
+2026-03-30 08:19:09.295 +00:00 [INF] Request origin https://localhost:32769 does not have permission to access the resource.
+2026-03-30 08:19:09.422 +00:00 [INF] Executing endpoint 'MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API)'
+2026-03-30 08:19:09.443 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MiniInventory.API.Models.User) on controller MiniInventory.API.Controllers.AuthController (MiniInventory.API).
+2026-03-30 08:19:12.666 +00:00 [INF] Executed DbCommand (364ms) [Parameters=[@__loginModel_Username_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[PasswordHash], [u].[Role], [u].[Username]
+FROM [Users] AS [u]
+WHERE [u].[Username] = @__loginModel_Username_0
+2026-03-30 08:19:12.951 +00:00 [INF] Executing UnauthorizedObjectResult, writing value of type 'System.String'.
+2026-03-30 08:19:12.961 +00:00 [INF] Executed action MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API) in 3511.6881ms
+2026-03-30 08:19:12.962 +00:00 [INF] Executed endpoint 'MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API)'
+2026-03-30 08:19:12.969 +00:00 [INF] Request finished HTTP/2 POST https://localhost:32769/api/Auth/login - 401 null text/plain; charset=utf-8 3686.904ms
+2026-03-30 08:19:39.761 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/api/Products/export - null null
+2026-03-30 08:19:39.773 +00:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-03-30 08:19:39.777 +00:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-03-30 08:19:39.778 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/api/Products/export - 401 0 null 38.1945ms
+2026-03-30 08:19:48.144 +00:00 [INF] Request starting HTTP/2 POST https://localhost:32769/api/Auth/login - application/json 84
+2026-03-30 08:19:48.150 +00:00 [INF] CORS policy execution failed.
+2026-03-30 08:19:48.151 +00:00 [INF] Request origin https://localhost:32769 does not have permission to access the resource.
+2026-03-30 08:19:48.155 +00:00 [INF] Executing endpoint 'MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API)'
+2026-03-30 08:19:48.157 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MiniInventory.API.Models.User) on controller MiniInventory.API.Controllers.AuthController (MiniInventory.API).
+2026-03-30 08:19:48.444 +00:00 [INF] Executed DbCommand (233ms) [Parameters=[@__loginModel_Username_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[PasswordHash], [u].[Role], [u].[Username]
+FROM [Users] AS [u]
+WHERE [u].[Username] = @__loginModel_Username_0
+2026-03-30 08:19:48.640 +00:00 [INF] Executing UnauthorizedObjectResult, writing value of type 'System.String'.
+2026-03-30 08:19:48.641 +00:00 [INF] Executed action MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API) in 483.7173ms
+2026-03-30 08:19:48.645 +00:00 [INF] Executed endpoint 'MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API)'
+2026-03-30 08:19:48.646 +00:00 [INF] Request finished HTTP/2 POST https://localhost:32769/api/Auth/login - 401 null text/plain; charset=utf-8 501.831ms
+2026-03-30 08:45:33.532 +00:00 [INF] Request starting HTTP/2 POST https://localhost:32769/api/Auth/register - application/json 89
+2026-03-30 08:45:33.536 +00:00 [INF] CORS policy execution failed.
+2026-03-30 08:45:33.537 +00:00 [INF] Request origin https://localhost:32769 does not have permission to access the resource.
+2026-03-30 08:45:33.538 +00:00 [INF] Executing endpoint 'MiniInventory.API.Controllers.AuthController.Register (MiniInventory.API)'
+2026-03-30 08:45:33.579 +00:00 [INF] Route matched with {action = "Register", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(MiniInventory.API.Models.User) on controller MiniInventory.API.Controllers.AuthController (MiniInventory.API).
+2026-03-30 08:45:35.246 +00:00 [INF] Executed DbCommand (266ms) [Parameters=[@__registerModel_Username_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Users] AS [u]
+        WHERE [u].[Username] = @__registerModel_Username_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-03-30 08:45:35.700 +00:00 [INF] Executed DbCommand (255ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Users] ([PasswordHash], [Role], [Username])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2);
+2026-03-30 08:45:35.722 +00:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-03-30 08:45:35.723 +00:00 [INF] Executed action MiniInventory.API.Controllers.AuthController.Register (MiniInventory.API) in 2143.9ms
+2026-03-30 08:45:35.724 +00:00 [INF] Executed endpoint 'MiniInventory.API.Controllers.AuthController.Register (MiniInventory.API)'
+2026-03-30 08:45:35.726 +00:00 [INF] Request finished HTTP/2 POST https://localhost:32769/api/Auth/register - 200 null text/plain; charset=utf-8 2193.5486ms
+2026-03-30 08:45:49.496 +00:00 [INF] Request starting HTTP/2 POST https://localhost:32769/api/Auth/login - application/json 89
+2026-03-30 08:45:49.500 +00:00 [INF] CORS policy execution failed.
+2026-03-30 08:45:49.501 +00:00 [INF] Request origin https://localhost:32769 does not have permission to access the resource.
+2026-03-30 08:45:49.502 +00:00 [INF] Executing endpoint 'MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API)'
+2026-03-30 08:45:49.503 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MiniInventory.API.Models.User) on controller MiniInventory.API.Controllers.AuthController (MiniInventory.API).
+2026-03-30 08:45:49.741 +00:00 [INF] Executed DbCommand (232ms) [Parameters=[@__loginModel_Username_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[PasswordHash], [u].[Role], [u].[Username]
+FROM [Users] AS [u]
+WHERE [u].[Username] = @__loginModel_Username_0
+2026-03-30 08:45:49.912 +00:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-30 08:45:49.929 +00:00 [INF] Executed action MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API) in 423.7647ms
+2026-03-30 08:45:49.929 +00:00 [INF] Executed endpoint 'MiniInventory.API.Controllers.AuthController.Login (MiniInventory.API)'
+2026-03-30 08:45:49.935 +00:00 [INF] Request finished HTTP/2 POST https://localhost:32769/api/Auth/login - 200 null application/json; charset=utf-8 439.0103ms
+2026-03-30 08:46:04.377 +00:00 [INF] Request starting HTTP/2 GET https://localhost:32769/api/Products/export - null null
+2026-03-30 08:46:04.408 +00:00 [INF] Executing endpoint 'MiniInventory.API.Controllers.ProductsController.ExportProductsToExcel (MiniInventory.API)'
+2026-03-30 08:46:04.411 +00:00 [INF] Route matched with {action = "ExportProductsToExcel", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ExportProductsToExcel() on controller MiniInventory.API.Controllers.ProductsController (MiniInventory.API).
+2026-03-30 08:46:06.831 +00:00 [INF] Executed DbCommand (278ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CategoryId], [p].[Name], [p].[ProductCode], [p].[PurchasePrice], [p].[SellingPrice], [p].[Status], [p].[StockQuantity], [p].[Unit], [c].[Id], [c].[Description], [c].[Name]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+2026-03-30 08:46:09.204 +00:00 [INF] Executing FileContentResult, sending file with download name 'DanhSachSanPham.xlsx' ...
+2026-03-30 08:46:09.217 +00:00 [INF] Executed action MiniInventory.API.Controllers.ProductsController.ExportProductsToExcel (MiniInventory.API) in 4804.9237ms
+2026-03-30 08:46:09.217 +00:00 [INF] Executed endpoint 'MiniInventory.API.Controllers.ProductsController.ExportProductsToExcel (MiniInventory.API)'
+2026-03-30 08:46:09.218 +00:00 [INF] Request finished HTTP/2 GET https://localhost:32769/api/Products/export - 200 6670 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet 4840.992ms

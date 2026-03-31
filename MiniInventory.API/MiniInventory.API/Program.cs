@@ -5,8 +5,16 @@ using MiniInventory.API.Data;
 using MiniInventory.API.Services; // <-- THÊM DÒNG NÀY ĐỂ GỌI ĐƯỢC THƯ MỤC SERVICES
 using System.Text;
 using System.Text.Json.Serialization;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+// --- BẮT ĐẦU LẮP CAMERA SERILOG ---
+builder.Host.UseSerilog((context, configuration) =>
+    configuration
+        .WriteTo.Console() // Hiển thị nhật ký ra cửa sổ Output/Terminal
+        .WriteTo.File("Logs/nhat-ky-he-thong-.txt", rollingInterval: RollingInterval.Day) // Tự động lưu ra file .txt (mỗi ngày 1 file mới)
+);
+// --- KẾT THÚC LẮP CAMERA ---
 
 // 1. Cấu hình DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -21,6 +29,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+// Đăng ký tác vụ chạy ngầm kiểm tra kho hàng
+builder.Services.AddHostedService<InventoryCheckJob>();
 
 // 2. Cấu hình Xác thực JWT
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);

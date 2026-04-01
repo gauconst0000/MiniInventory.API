@@ -56,8 +56,7 @@ namespace MiniInventory.API.Services
                     _logger.LogError(ex, "Lỗi khi chạy Cronjob dọn rác log.");
                 }
 
-                // Cô lao công đi ngủ 24 tiếng (1 ngày). 
-                // Mẹo: Trong lúc test em có thể đổi thành TimeSpan.FromMinutes(1) để 1 phút nó dọn 1 lần xem có chạy không nhé.
+                
                 await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
             }
         }

@@ -15,19 +15,19 @@ namespace MiniInventory.API.Services
             _context = context;
         }
 
-        // 1. Lấy danh sách
+        // ==============================================================
+        // 1. CÁC NGHIỆP VỤ LÕI (BẢO TOÀN NGUYÊN VẸN 100%)
+        // ==============================================================
         public async Task<IEnumerable<Product>> GetProductsAsync()
         {
             return await _context.Products.Include(p => p.Category).ToListAsync();
         }
 
-        // 2. Lấy chi tiết
         public async Task<Product?> GetProductByIdAsync(int id)
         {
             return await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        // 3. Thêm mới
         public async Task<Product> AddProductAsync(Product product)
         {
             var categoryExists = await _context.Categories.AnyAsync(c => c.Id == product.CategoryId);
@@ -41,14 +41,12 @@ namespace MiniInventory.API.Services
             return product;
         }
 
-        // 4. Cập nhật
         public async Task UpdateProductAsync(Product product)
         {
             _context.Entry(product).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
-        // 5. Xóa
         public async Task DeleteProductAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);
@@ -72,27 +70,74 @@ namespace MiniInventory.API.Services
 
             await _context.SaveChangesAsync();
         }
+
+        // ==============================================================
+        // 2. NGHIỆP VỤ EXCEL (ĐÃ CẬP NHẬT UPSERT KHÓA NGOẠI)
+        // ==============================================================
         public async Task<byte[]> GenerateExcelTemplateAsync()
         {
+            // 1. Kéo toàn bộ Danh Mục từ Database lên (Đây chính là dữ liệu cho cái Dropdown)
+            var categories = await _context.Categories.ToListAsync();
+
             using (var workbook = new XLWorkbook())
             {
-                var worksheet = workbook.Worksheets.Add("Template_SanPham");
+                // =========================================================
+                // BƯỚC 1: TẠO SHEET ẨN CHỨA DỮ LIỆU DANH MỤC
+                // =========================================================
+                var hiddenSheet = workbook.Worksheets.Add("Data_DanhMuc");
 
-                worksheet.Cell(1, 1).Value = "Mã Sản Phẩm (*)";
-                worksheet.Cell(1, 2).Value = "Tên Sản Phẩm (*)";
-                worksheet.Cell(1, 3).Value = "Mã Danh Mục";
-                worksheet.Cell(1, 4).Value = "Số Lượng";
-                worksheet.Cell(1, 5).Value = "Giá";
+                // Đổ danh sách tên danh mục vào cột A của Sheet ẩn
+                for (int i = 0; i < categories.Count; i++)
+                {
+                    hiddenSheet.Cell(i + 1, 1).Value = categories[i].Name;
+                }
 
-                var headerRow = worksheet.Row(1);
+                // MA THUẬT: Giấu cái Sheet này đi để user không thấy
+                hiddenSheet.Hide();
+
+                // =========================================================
+                // BƯỚC 2: TẠO SHEET CHÍNH (GIAO DIỆN NGƯỜI DÙNG)
+                // =========================================================
+                var mainSheet = workbook.Worksheets.Add("Template_SanPham");
+
+                // Đổ mực in Header
+                mainSheet.Cell(1, 1).Value = "Mã Sản Phẩm (*)";
+                mainSheet.Cell(1, 2).Value = "Tên Sản Phẩm (*)";
+                mainSheet.Cell(1, 3).Value = "Mã Danh Mục (*)"; // Cột C (Cột số 3)
+                mainSheet.Cell(1, 4).Value = "Số Lượng";
+                mainSheet.Cell(1, 5).Value = "Giá";
+
+                var headerRow = mainSheet.Row(1);
                 headerRow.Style.Font.Bold = true;
                 headerRow.Style.Fill.BackgroundColor = XLColor.LightBlue;
-                worksheet.Columns().AdjustToContents();
 
+                // =========================================================
+                // BƯỚC 3: MÓC NỐI DROPDOWN VÀO CỘT MÃ DANH MỤC
+                // =========================================================
+                if (categories.Any())
+                {
+                    // Thiết lập Dropdown cho phép chọn từ dòng 2 đến dòng 1000 ở Cột C
+                    var dropdownRange = mainSheet.Range("C2:C1000");
+
+                    // KHẮC PHỤC LỖI PHIÊN BẢN: Gọi hàm CreateDataValidation() thay vì gọi thuộc tính
+                    var validation = dropdownRange.CreateDataValidation();
+
+                    // Lấy dữ liệu từ cột A của sheet ẩn để làm danh sách xổ xuống
+                    var dataListRange = hiddenSheet.Range(1, 1, categories.Count, 1);
+                    validation.List(dataListRange);
+
+                    // Cảnh báo nếu cố tình gõ bậy bạ không có trong danh sách
+                    validation.ErrorTitle = "Lỗi nhập liệu";
+                    validation.ErrorMessage = "Vui lòng chỉ chọn danh mục có sẵn từ danh sách thả xuống!";
+                }
+
+                mainSheet.Columns().AdjustToContents();
+
+                // Đóng gói trả về
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
-                    return stream.ToArray(); // Trả về mảng byte dữ liệu thô
+                    return stream.ToArray();
                 }
             }
         }
@@ -104,7 +149,6 @@ namespace MiniInventory.API.Services
                 var worksheet = workbook.Worksheet(1);
                 var usedRange = worksheet.RangeUsed();
 
-                // Dựng khiên phòng thủ: Nếu file trống trơn không có dữ liệu, chặn ngay từ cửa!
                 if (usedRange == null)
                 {
                     return "File Excel trống không, vui lòng điền dữ liệu trước khi tải lên!";
@@ -112,23 +156,35 @@ namespace MiniInventory.API.Services
 
                 var rows = usedRange.RowsUsed().Skip(1);
 
-                // Lấy danh sách sản phẩm hiện tại bằng context trong Service
+                // Lấy trước danh sách SP và Danh mục lên bộ nhớ để dò tìm siêu tốc
                 var existingProducts = _context.Products.ToList();
+                var categories = _context.Categories.ToList(); // BỔ SUNG: Lấy kho Danh mục
 
                 foreach (var row in rows)
                 {
                     var productCode = row.Cell(1).Value.ToString().Trim();
                     var productName = row.Cell(2).Value.ToString().Trim();
+                    var categoryName = row.Cell(3).Value.ToString().Trim(); // BỔ SUNG: Đọc cột 3
 
                     if (string.IsNullOrEmpty(productCode) || string.IsNullOrEmpty(productName))
+                        continue;
+
+                    // BỔ SUNG: Tìm ID của Danh Mục
+                    // (Lưu ý: Nếu bảng Categories của em dùng cột khác để chứa chữ "Iphone", hãy đổi c.Name thành cột đó)
+                    var category = categories.FirstOrDefault(c => c.Name != null && c.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
+
+                    // Nếu người ta điền mã danh mục bậy bạ không có trong DB -> Bỏ qua để tránh văng lỗi 500
+                    if (category == null)
                         continue;
 
                     var existingProduct = existingProducts.FirstOrDefault(p => p.ProductCode == productCode);
 
                     if (existingProduct != null)
                     {
-                        // Cập nhật
+                        // TH1: Cập nhật
                         existingProduct.Name = productName;
+                        existingProduct.CategoryId = category.Id; // BỔ SUNG: Gán khóa ngoại mới
+
                         if (int.TryParse(row.Cell(4).Value.ToString(), out int qty))
                             existingProduct.StockQuantity = qty;
                         if (decimal.TryParse(row.Cell(5).Value.ToString(), out decimal price))
@@ -138,12 +194,14 @@ namespace MiniInventory.API.Services
                     }
                     else
                     {
-                        // Thêm mới
+                        // TH2: Thêm mới
                         var newProduct = new Product
                         {
                             ProductCode = productCode,
-                            Name = productName
+                            Name = productName,
+                            CategoryId = category.Id // BỔ SUNG: Gán khóa ngoại bắt buộc
                         };
+
                         if (int.TryParse(row.Cell(4).Value.ToString(), out int qty))
                             newProduct.StockQuantity = qty;
                         if (decimal.TryParse(row.Cell(5).Value.ToString(), out decimal price))
@@ -156,26 +214,22 @@ namespace MiniInventory.API.Services
             }
             return "Đã nhập dữ liệu từ Excel thành công rực rỡ!";
         }
+
         public async Task<byte[]> ExportAllProductsToExcelAsync()
         {
-            // 1. Gọi hàm lấy danh sách sản phẩm (Hàm này đã có sẵn trong ProductService của em)
             var products = await GetProductsAsync();
 
-            // 2. Tạo một cuốn sổ Excel mới tinh
             using (var workbook = new XLWorkbook())
             {
-                // 3. Tạo một trang giấy
                 var worksheet = workbook.Worksheets.Add("DanhSachSanPham");
 
-                // 4. In tiêu đề cho các cột (Dòng số 1)
                 worksheet.Cell(1, 1).Value = "ID";
                 worksheet.Cell(1, 2).Value = "Mã Sản Phẩm";
                 worksheet.Cell(1, 3).Value = "Tên Sản Phẩm";
                 worksheet.Cell(1, 4).Value = "Giá Bán";
                 worksheet.Cell(1, 5).Value = "Số Lượng Tồn";
 
-                // 5. Vòng lặp: Đổ từng sản phẩm vào các dòng tiếp theo
-                int currentRow = 2; // Bắt đầu in từ dòng số 2
+                int currentRow = 2;
                 foreach (var p in products)
                 {
                     worksheet.Cell(currentRow, 1).Value = p.Id;
@@ -186,7 +240,6 @@ namespace MiniInventory.API.Services
                     currentRow++;
                 }
 
-                // 6. Đóng gói cuốn sổ lại thành mảng byte để trả về cho Lễ tân
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);

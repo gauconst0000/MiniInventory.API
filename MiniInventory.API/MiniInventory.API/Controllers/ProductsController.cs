@@ -95,8 +95,11 @@ namespace MiniInventory.API.Controllers
         {
             if (file == null || file.Length == 0)
                 return BadRequest("Vui lòng chọn một file Excel hợp lệ!");
-
+            var extension = Path.GetExtension(file.FileName).ToLower();
+            if (extension != ".xlsx")
+                return BadRequest("Sai định dạng! Hệ thống chỉ chấp nhận file Excel (.xlsx).");
             try
+
             {
                 // Mở luồng dữ liệu (Stream) từ file tải lên
                 using (var stream = file.OpenReadStream())

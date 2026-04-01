@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MiniInventory.API.Data;
+using MiniInventory.API.Middlewares;
 using MiniInventory.API.Services; // <-- THÊM DÒNG NÀY ĐỂ GỌI ĐƯỢC THƯ MỤC SERVICES
+using Serilog;
 using System.Text;
 using System.Text.Json.Serialization;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 // --- BẮT ĐẦU LẮP CAMERA SERILOG ---
@@ -31,6 +32,8 @@ builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 // Đăng ký tác vụ chạy ngầm kiểm tra kho hàng
 builder.Services.AddHostedService<InventoryCheckJob>();
+// Đăng ký Cô Lao Công thành tác vụ chạy ngầm vô thời hạn
+builder.Services.AddHostedService<LogCleanupService>();
 
 // 2. Cấu hình Xác thực JWT
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
@@ -115,6 +118,7 @@ app.UseCors("AllowAngular");
 // Thầy đã xóa đoạn code bị lặp ở đây đi cho gọn
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<SystemLogMiddleware>();
 
 app.MapControllers();
 

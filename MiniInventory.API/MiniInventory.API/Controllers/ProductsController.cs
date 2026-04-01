@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using MiniInventory.API.Models;
 using MiniInventory.API.Services;
-using ClosedXML.Excel;
+// using ClosedXML.Excel; // ĐÃ XÓA: Lễ tân không cần dùng mực in nữa!
+using System.IO;
 
 namespace MiniInventory.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    // 🚀 Lệnh chuẩn Enterprise: Cấm mọi trình duyệt lưu Cache API này
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class ProductsController : ControllerBase
     {
-        // CHỈ GỌI SERVICE, TUYỆT ĐỐI KHÔNG GỌI DBCONTEXT
         private readonly IProductService _productService;
 
         public ProductsController(IProductService productService)
@@ -21,6 +20,9 @@ namespace MiniInventory.API.Controllers
             _productService = productService;
         }
 
+        // ==============================================================
+        // KHU VỰC 1: CÁC API CŨ ĐƯỢC BẢO VỆ NGUYÊN VẸN 100%
+        // ==============================================================
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
@@ -62,55 +64,51 @@ namespace MiniInventory.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            // Gọi thẳng vào Service hoàn hảo của em
             await _productService.DeleteProductAsync(id);
             return Ok(new { message = "Thao tác thành công, dữ liệu lịch sử được bảo toàn." });
         }
+
+        // ==============================================================
+        // KHU VỰC 2: CÁC TÍNH NĂNG EXCEL ĐÃ ĐƯỢC CHUẨN HÓA VỀ SERVICE
+        // ==============================================================
+
         [HttpGet("export")]
         public async Task<IActionResult> ExportProductsToExcel()
         {
-            // 1. Lấy toàn bộ hàng hóa trong kho (Khầy đang giả sử em gọi qua Service hoặc Context tùy code cũ của em)
-            // Nếu em đang dùng _context thì đổi thành _context.Products.ToList();
-            // Nếu em đang dùng _productService thì đổi thành _productService.GetAllProducts();
-            var products = await _productService.GetProductsAsync();
+            // Lễ tân chỉ việc nhờ Bếp trưởng làm file, nhận lại mảng byte và trả cho khách
+            var content = await _productService.ExportAllProductsToExcelAsync();
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content, contentType, "DanhSachSanPham.xlsx");
+        }
 
-            // 2. Tạo một cuốn sổ Excel mới tinh
-            using (var workbook = new XLWorkbook())
+        [HttpGet("download-template")]
+        public async Task<IActionResult> DownloadTemplate()
+        {
+            // Tương tự, nhờ Bếp trưởng làm template
+            var content = await _productService.GenerateExcelTemplateAsync();
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content, contentType, "Template_NhapSanPham.xlsx");
+        }
+
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportProducts(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Vui lòng chọn một file Excel hợp lệ!");
+
+            try
             {
-                // 3. Tạo một trang giấy tên là "DanhSachSanPham"
-                var worksheet = workbook.Worksheets.Add("DanhSachSanPham");
-
-                // 4. In tiêu đề cho các cột (Dòng số 1)
-                worksheet.Cell(1, 1).Value = "ID";
-                worksheet.Cell(1, 2).Value = "Mã Sản Phẩm";
-                worksheet.Cell(1, 3).Value = "Tên Sản Phẩm";
-                worksheet.Cell(1, 4).Value = "Giá Bán";
-                worksheet.Cell(1, 5).Value = "Số Lượng Tồn";
-
-                // 5. Vòng lặp: Đổ từng sản phẩm vào các dòng tiếp theo
-                int currentRow = 2; // Bắt đầu in từ dòng số 2
-                foreach (var p in products)
+                // Mở luồng dữ liệu (Stream) từ file tải lên
+                using (var stream = file.OpenReadStream())
                 {
-                    worksheet.Cell(currentRow, 1).Value = p.Id;
-                    worksheet.Cell(currentRow, 2).Value = p.ProductCode;
-                    worksheet.Cell(currentRow, 3).Value = p.Name;
-                    worksheet.Cell(currentRow, 4).Value = p.SellingPrice;
-                    worksheet.Cell(currentRow, 5).Value = p.StockQuantity;
-                    currentRow++;
+                    // Ném luồng dữ liệu thô này xuống cho Bếp trưởng xử lý Upsert
+                    var resultMessage = await _productService.ImportProductsFromExcelAsync(stream);
+                    return Ok(resultMessage);
                 }
-
-                // 6. Đóng gói cuốn sổ lại thành luồng dữ liệu (Stream)
-                using (var stream = new System.IO.MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    var content = stream.ToArray();
-
-                    // 7. Trả về file Excel cho người dùng tải xuống
-                    return File(
-                        content,
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "DanhSachSanPham.xlsx");
-                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi hệ thống khi đọc file Excel: {ex.Message}");
             }
         }
     }

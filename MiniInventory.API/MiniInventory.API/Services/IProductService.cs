@@ -1,4 +1,6 @@
 ﻿using MiniInventory.API.Models;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace MiniInventory.API.Services
 {
@@ -9,5 +11,8 @@ namespace MiniInventory.API.Services
         Task<Product> AddProductAsync(Product product);
         Task UpdateProductAsync(Product product);
         Task DeleteProductAsync(int id);
+        Task<byte[]> GenerateExcelTemplateAsync();
+        Task<string> ImportProductsFromExcelAsync(Stream excelStream);
+        Task<byte[]> ExportAllProductsToExcelAsync();
     }
 }

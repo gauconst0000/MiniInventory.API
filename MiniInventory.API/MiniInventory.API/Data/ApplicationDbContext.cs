@@ -14,6 +14,7 @@ namespace MiniInventory.API.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
         public DbSet<InventoryTransactionDetail> InventoryTransactionDetails { get; set; }
+        public DbSet<SystemLog> SystemLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
